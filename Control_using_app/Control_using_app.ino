@@ -13,8 +13,9 @@ int motor3_step=6;
 int motor4_dir=9;
 int motor4_step=8;
 
-int rpm=0;
+int rpm=10;
 
+int y=10;
 
 void setup()
 {
@@ -43,67 +44,61 @@ void loop(){
 
     if(ch=='0')
     {
-      rpm=0;
+      rpm=5;
     }
     else if(ch=='1')
     {
-      rpm=6;
+      rpm=7;
     }
     else if(ch=='2')
     {
-      rpm=12;
+      rpm=9;
     }
     else if(ch=='3')
     {
-      rpm=18;
+      rpm=11;
     }
     else if(ch=='4')
     {
-      rpm=24;
+      rpm=12;
     }
     else if (ch=='5')
     {
-      rpm=30;
+      rpm=13;
     }
     else if(ch=='6')
     {
-      rpm=36;
+      rpm=14;
     }
     else if(ch=='7')
     {
-      rpm=42;
+      rpm=15;
     }
     else if(ch=='8')
     {
-      rpm=48;
+      rpm=16;
     }
     else if(ch=='9')
     {
-      rpm=54;
+      rpm=17;
     }
     else if(ch=='q')
     {
-      rpm=60;
+      rpm=18;
     }
-
-    
-    Serial.print(rpm);
-    Serial.print(" ");
-    double sp=(1/(60.0*rpm))*1000000;
-
-    Serial.print(sp);
-
+    double sp= ((60.0/(rpm*1800))*1000000);
+    sp=sp/2;
       
     if(ch=='F')
     {
       Serial.println("Forward");
 
       digitalWrite(motor1_dir,HIGH);
-      digitalWrite(motor2_dir,HIGH);
-      digitalWrite(motor3_dir,HIGH);
+      digitalWrite(motor2_dir,LOW);
+      digitalWrite(motor3_dir,LOW);
       digitalWrite(motor4_dir,HIGH);
 
-      for(int i=0;i<=200;i++)
+      for(int i=0;i<=y;i++)
       {
         digitalWrite(motor1_step,HIGH);
         digitalWrite(motor2_step,HIGH);
@@ -127,11 +122,11 @@ void loop(){
       Serial.println("Backward");
 
       digitalWrite(motor1_dir,LOW);
-      digitalWrite(motor2_dir,LOW);
-      digitalWrite(motor3_dir,LOW);
+      digitalWrite(motor2_dir,HIGH);
+      digitalWrite(motor3_dir,HIGH);
       digitalWrite(motor4_dir,LOW);
 
-      for(int i=0;i<=200;i++)
+      for(int i=0;i<=y;i++)
       {
         digitalWrite(motor1_step,HIGH);
         digitalWrite(motor2_step,HIGH);
@@ -153,11 +148,11 @@ void loop(){
       Serial.println("Left"); 
 
       digitalWrite(motor1_dir,LOW);
-      digitalWrite(motor2_dir,HIGH);
+      digitalWrite(motor2_dir,LOW);
       digitalWrite(motor3_dir,HIGH);
-      digitalWrite(motor4_dir,LOW);
+      digitalWrite(motor4_dir,HIGH);
 
-      for(int i=0;i<=200;i++)
+      for(int i=0;i<=y;i++)
       {
         digitalWrite(motor1_step,HIGH);
         digitalWrite(motor2_step,HIGH);
@@ -179,11 +174,11 @@ void loop(){
       Serial.println("Right");
 
       digitalWrite(motor1_dir,HIGH);
-      digitalWrite(motor2_dir,LOW);
+      digitalWrite(motor2_dir,HIGH);
       digitalWrite(motor3_dir,LOW);
-      digitalWrite(motor4_dir,HIGH);
+      digitalWrite(motor4_dir,LOW);
 
-      for(int i=0;i<=200;i++)
+      for(int i=0;i<=y;i++)
       {
         digitalWrite(motor1_step,HIGH);
         digitalWrite(motor2_step,HIGH);
@@ -203,6 +198,10 @@ void loop(){
     else if(ch=='S')
     {
       Serial.println("Stop");
+        digitalWrite(motor1_step,LOW);
+        digitalWrite(motor2_step,LOW);
+        digitalWrite(motor3_step,LOW);
+        digitalWrite(motor4_step,LOW);
     }
 
 
@@ -210,18 +209,18 @@ void loop(){
     {
       Serial.println("Forward-Left");
 
-      digitalWrite(motor2_dir,HIGH);
-      digitalWrite(motor3_dir,HIGH);
+      digitalWrite(motor2_dir,LOW);
+      digitalWrite(motor4_dir,HIGH);
 
-      for(int i=0;i<=200;i++)
+      for(int i=0;i<=y;i++)
       {
         digitalWrite(motor2_step,HIGH);
-        digitalWrite(motor3_step,HIGH);
+        digitalWrite(motor4_step,HIGH);
         
         delayMicroseconds(sp);
         
         digitalWrite(motor2_step,LOW);
-        digitalWrite(motor3_step,LOW);
+        digitalWrite(motor4_step,LOW);
         
         delayMicroseconds(sp);
       }
@@ -231,17 +230,17 @@ void loop(){
       Serial.println("Forward-Right");
 
       digitalWrite(motor1_dir,HIGH);
-      digitalWrite(motor4_dir,HIGH);
+      digitalWrite(motor3_dir,LOW);
 
-      for(int i=0;i<=200;i++)
+      for(int i=0;i<=y;i++)
       {
         digitalWrite(motor1_step,HIGH);
-        digitalWrite(motor4_step,HIGH);
+        digitalWrite(motor3_step,HIGH);
         
         delayMicroseconds(sp);
         
         digitalWrite(motor1_step,LOW);
-        digitalWrite(motor4_step,LOW);
+        digitalWrite(motor3_step,LOW);
         
         delayMicroseconds(sp);
       }
@@ -250,18 +249,18 @@ void loop(){
     {
       Serial.println("Back-Left");
 
-      digitalWrite(motor2_dir,LOW);
-      digitalWrite(motor3_dir,LOW);
+      digitalWrite(motor2_dir,HIGH);
+      digitalWrite(motor4_dir,LOW);
 
-      for(int i=0;i<=200;i++)
+      for(int i=0;i<=y;i++)
       {
         digitalWrite(motor2_step,HIGH);
-        digitalWrite(motor3_step,HIGH);
+        digitalWrite(motor4_step,HIGH);
         
         delayMicroseconds(sp);
         
         digitalWrite(motor2_step,LOW);
-        digitalWrite(motor3_step,LOW);
+        digitalWrite(motor4_step,LOW);
         
         delayMicroseconds(sp);
       }
@@ -271,17 +270,17 @@ void loop(){
       Serial.println("Back-Right");
 
       digitalWrite(motor1_dir,LOW);
-      digitalWrite(motor4_dir,LOW);
+      digitalWrite(motor3_dir,HIGH);
 
-      for(int i=0;i<=200;i++)
+      for(int i=0;i<=y;i++)
       {
         digitalWrite(motor1_step,HIGH);
-        digitalWrite(motor4_step,HIGH);
+        digitalWrite(motor3_step,HIGH);
         
         delayMicroseconds(sp);
         
         digitalWrite(motor1_step,LOW);
-        digitalWrite(motor4_step,LOW);
+        digitalWrite(motor3_step,LOW);
         
         delayMicroseconds(sp);
       }
