@@ -1,4 +1,4 @@
-# Navigator
+# Follow_Trajectory
 
 ## Aim
 
